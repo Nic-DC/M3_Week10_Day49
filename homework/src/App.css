@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+#favorite {
+  transition: transform 350ms ease-out;
+  font-size: 1rem;
+}
+
+#favorite:hover {
+  transform: scale(1.5);
+}
