@@ -45,3 +45,7 @@
 #favorite:hover {
   transform: scale(1.5);
 }
+
+#deleteJob {
+  font-size: 1.5rem;
+}
