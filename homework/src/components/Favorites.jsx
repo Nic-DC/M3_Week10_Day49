@@ -20,7 +20,7 @@ const Favorites = () => {
             {favoriteList.map((fav) => (
               <div key={fav._id}>
                 <Job data={fav} style={{ display: "inline - block" }} deleteJob={true} />
-                {/* <RiDeleteBin2Fill /> */}
+                <RiDeleteBin2Fill />
               </div>
             ))}
           </Col>
