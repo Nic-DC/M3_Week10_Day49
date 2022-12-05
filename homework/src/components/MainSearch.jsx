@@ -6,14 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { getJobsAction } from "../redux/actions";
 
 const MainSearch = () => {
-  const jobsList = useSelector((state) => state.favorites.favList);
-  console.log({ jobsList });
+  const jobsList = useSelector((state) => state.jobsResult.searchedJobs);
 
   const dispatch = useDispatch();
   console.log({ dispatch });
 
   const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
 
   // const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
 
@@ -38,7 +36,7 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map((jobData) => (
+          {jobsList.map((jobData) => (
             // <div
             // key={jobData._id}
             // onClick={() => {

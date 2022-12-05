@@ -33,7 +33,9 @@ export const getJobsAction = (query) => {
     try {
       const response = await fetch(baseEndpoint + query + "&limit=20");
       if (response.ok) {
-        const fetchedJobs = await response.json();
+        const data = await response.json();
+        console.log(data);
+        const fetchedJobs = data.data;
         dispatch({
           type: GET_JOBS,
           payload: fetchedJobs,

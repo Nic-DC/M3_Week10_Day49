@@ -1,4 +1,4 @@
-import { DELETE_JOB } from "../actions";
+import { DELETE_JOB, GET_JOBS } from "../actions";
 
 const initialState = {
   searchedJobs: [],
@@ -6,10 +6,10 @@ const initialState = {
 
 const jobsResultReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DELETE_JOB:
+    case GET_JOBS:
       return {
         ...state,
-        searchedJobs: [...state.searchedJobs.filter((job) => job.id)],
+        searchedJobs: [...action.payload],
       };
     default:
       return state;
