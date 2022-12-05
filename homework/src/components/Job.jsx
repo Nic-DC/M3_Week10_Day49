@@ -2,6 +2,7 @@ import { Row, Col, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { AiTwotoneHeart } from "react-icons/ai";
+import { addToFavoritesAction, deleteFavoriteAction } from "../redux/actions";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -24,10 +25,11 @@ const Job = ({ data, deleteJob }) => {
             <Badge
               variant="warning"
               onClick={() => {
-                dispatch({
-                  type: `ADD_TO_FAVORITES`,
-                  payload: data,
-                });
+                // dispatch({
+                //   type: `ADD_TO_FAVORITES`,
+                //   payload: data,
+                // });
+                dispatch(addToFavoritesAction(data));
               }}
             >
               <AiTwotoneHeart id="favorite" />
@@ -38,10 +40,11 @@ const Job = ({ data, deleteJob }) => {
               id="deleteJob"
               className="ml-2"
               onClick={() => {
-                dispatch({
-                  type: `DELETE_FAVORITE`,
-                  payload: data._id,
-                });
+                // dispatch({
+                //   type: `DELETE_FAVORITE`,
+                //   payload: data._id,
+                // });
+                dispatch(deleteFavoriteAction(data._id));
               }}
             />
           )}
