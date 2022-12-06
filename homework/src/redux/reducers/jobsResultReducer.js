@@ -1,9 +1,10 @@
-import { FETCH_JOBS, FETCH_JOBS_LOADING, TRIGGER_FETCH } from "../actions";
+import { FETCH_JOBS, FETCH_JOBS_LOADING, TRIGGER_FETCH, FETCH_ERROR } from "../actions";
 
 const initialState = {
   searchedJobs: [],
   isLoading: true,
-  triggeredFetch: false,
+  triggeredFetch: false, // used as a suplimentary condition to show the Spinner
+  isError: false,
 };
 
 const jobsResultReducer = (state = initialState, action) => {
@@ -28,6 +29,13 @@ const jobsResultReducer = (state = initialState, action) => {
         ...state,
         triggeredFetch: !state.triggeredFetch,
       };
+
+    case FETCH_ERROR:
+      return {
+        ...state,
+        isError: action.payload,
+      };
+
     default:
       return state;
   }

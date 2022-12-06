@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import Job from "./Job";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +16,9 @@ const MainSearch = () => {
 
   const triggeredFetch = useSelector((state) => state.jobsResult.triggeredFetch);
   console.log({ triggeredFetch });
+
+  const fetchError = useSelector((state) => state.jobsResult.isError);
+  console.log({ fetchError });
 
   const [query, setQuery] = useState("");
 
@@ -46,7 +49,14 @@ const MainSearch = () => {
           ))}
         </Col> */}
       </Row>
-      {triggeredFetch &&
+      {fetchError ? (
+        <Row>
+          <Col xs={10} className="mx-auto mb-5 mt-5 d-flex justify-content-center">
+            <Alert variant="danger">Something is amiss my dear dear user 🤯</Alert>
+          </Col>
+        </Row>
+      ) : (
+        triggeredFetch &&
         (showLoader ? (
           <Row className="justify-content-center">
             <Col xs={10} className="mx-auto mb-5 mt-5 d-flex justify-content-center">
@@ -61,7 +71,8 @@ const MainSearch = () => {
               ))}
             </Col>
           </Row>
-        ))}
+        ))
+      )}
     </Container>
   );
 };

@@ -3,6 +3,7 @@ export const DELETE_FAVORITE = `DELETE_FAVORITE`;
 export const FETCH_JOBS = `FETCH_JOBS`;
 export const FETCH_JOBS_LOADING = `FETCH_JOBS_LOADING`;
 export const TRIGGER_FETCH = `TRIGGER_FETCH`;
+export const FETCH_ERROR = `FETCH_ERROR`;
 
 export const addToFavoritesAction = (job) => {
   return {
@@ -40,6 +41,13 @@ export const triggeredFetchAction = () => {
   };
 };
 
+export const fetchErrorAction = (bool) => {
+  return {
+    type: FETCH_ERROR,
+    payload: bool,
+  };
+};
+
 export const getJobsAction = (query) => {
   return async (dispatch, getState) => {
     console.log("Fetching the jobs...");
@@ -63,13 +71,22 @@ export const getJobsAction = (query) => {
         // before the books are rendered
         setTimeout(() => {
           dispatch(fetchJobsLoadingAction(false));
-        }, 1000);
+        }, 100);
       } else {
         alert("Error fetching results");
+
+        dispatch(triggeredFetchAction());
+        dispatch(fetchJobsLoadingAction(false));
+
+        dispatch(fetchErrorAction(true));
       }
     } catch (error) {
       console.log(error);
+
+      dispatch(triggeredFetchAction());
       dispatch(fetchJobsLoadingAction(false));
+
+      dispatch(fetchErrorAction(true));
     }
   };
 };
