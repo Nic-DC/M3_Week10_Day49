@@ -1,7 +1,8 @@
 export const ADD_TO_FAVORITES = `ADD_TO_FAVORITES`;
 export const DELETE_FAVORITE = `DELETE_FAVORITE`;
-export const DELETE_JOB = `DELETE_JOB`;
-export const GET_JOBS = `GET_JOBS`;
+export const FETCH_JOBS = `FETCH_JOBS`;
+export const FETCH_JOBS_LOADING = `FETCH_JOBS_LOADING`;
+export const TRIGGER_FETCH = `TRIGGER_FETCH`;
 
 export const addToFavoritesAction = (job) => {
   return {
@@ -17,14 +18,27 @@ export const deleteFavoriteAction = (id) => {
   };
 };
 
-export const deleteJobAction = (id) => {
+export const fetchJobsAction = (jobs) => {
   return {
-    type: DELETE_JOB,
-    payload: id,
+    type: FETCH_JOBS,
+    payload: jobs,
   };
 };
 
-export const getQuery = () => {};
+// FOR UX - the user will see the spinner until the books are rendered
+// action creator for setting the 'isLoading' property in the 'jobsResultReducer' reducer to "false"
+export const fetchJobsLoadingAction = (bool) => {
+  return {
+    type: FETCH_JOBS_LOADING,
+    payload: bool,
+  };
+};
+
+export const triggeredFetchAction = () => {
+  return {
+    type: TRIGGER_FETCH,
+  };
+};
 
 export const getJobsAction = (query) => {
   return async (dispatch, getState) => {
@@ -36,15 +50,26 @@ export const getJobsAction = (query) => {
         const data = await response.json();
         console.log(data);
         const fetchedJobs = data.data;
-        dispatch({
-          type: GET_JOBS,
-          payload: fetchedJobs,
-        });
+        // dispatch({
+        //   type: GET_JOBS,
+        //   payload: fetchedJobs,
+        // });
+        dispatch(fetchJobsAction(fetchedJobs));
+
+        dispatch(triggeredFetchAction());
+
+        // AFTER we dispatch the GET_JOBS action, we create a
+        // setTimeout function that will END showing the spinner 100ms
+        // before the books are rendered
+        setTimeout(() => {
+          dispatch(fetchJobsLoadingAction(false));
+        }, 1000);
       } else {
         alert("Error fetching results");
       }
     } catch (error) {
       console.log(error);
+      dispatch(fetchJobsLoadingAction(false));
     }
   };
 };

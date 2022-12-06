@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import Job from "./Job";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -11,9 +11,13 @@ const MainSearch = () => {
   const dispatch = useDispatch();
   console.log({ dispatch });
 
-  const [query, setQuery] = useState("");
+  const showLoader = useSelector((state) => state.jobsResult.isLoading);
+  console.log({ showLoader });
 
-  // const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
+  const triggeredFetch = useSelector((state) => state.jobsResult.triggeredFetch);
+  console.log({ triggeredFetch });
+
+  const [query, setQuery] = useState("");
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -35,22 +39,29 @@ const MainSearch = () => {
             <Form.Control type="search" value={query} onChange={handleChange} placeholder="type and press Enter" />
           </Form>
         </Col>
-        <Col xs={10} className="mx-auto mb-5">
+
+        {/* <Col xs={10} className="mx-auto mb-5">
           {jobsList.map((jobData) => (
-            // <div
-            // key={jobData._id}
-            // onClick={() => {
-            //   dispatch({
-            //     type: `ADD_TO_FAVORITES`,
-            //     payload: jobData,
-            //   });
-            // }}
-            // >
             <Job key={jobData._id} data={jobData} />
-            // </div>
           ))}
-        </Col>
+        </Col> */}
       </Row>
+      {triggeredFetch &&
+        (showLoader ? (
+          <Row className="justify-content-center">
+            <Col xs={10} className="mx-auto mb-5 mt-5 d-flex justify-content-center">
+              <Spinner animation="grow" />
+            </Col>
+          </Row>
+        ) : (
+          <Row>
+            <Col xs={10} className="mx-auto mb-5">
+              {jobsList.map((jobData) => (
+                <Job key={jobData._id} data={jobData} />
+              ))}
+            </Col>
+          </Row>
+        ))}
     </Container>
   );
 };

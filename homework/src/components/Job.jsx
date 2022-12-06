@@ -19,36 +19,34 @@ const Job = ({ data, deleteJob }) => {
         <Link to={`/${data.company_name}`}>{data.company_name}</Link>
       </Col>
       <Col xs={9}>
-        <a href={data.url} target="_blank" rel="noreferrer">
-          {data.title}{" "}
-          <Link to={`/favorites`}>
-            <Badge
-              variant="warning"
-              onClick={() => {
-                // dispatch({
-                //   type: `ADD_TO_FAVORITES`,
-                //   payload: data,
-                // });
-                dispatch(addToFavoritesAction(data));
-              }}
-            >
-              <AiTwotoneHeart id="favorite" />
-            </Badge>
-          </Link>
-          {deleteJob && (
-            <RiDeleteBin2Fill
-              id="deleteJob"
-              className="ml-2"
-              onClick={() => {
-                // dispatch({
-                //   type: `DELETE_FAVORITE`,
-                //   payload: data._id,
-                // });
-                dispatch(deleteFavoriteAction(data._id));
-              }}
-            />
-          )}
-        </a>
+        {data.title}{" "}
+        <Link to={`/favorites`}>
+          <Badge
+            variant="warning"
+            onClick={() => {
+              // dispatch({
+              //   type: `ADD_TO_FAVORITES`,
+              //   payload: data,
+              // });
+              dispatch(addToFavoritesAction(data));
+            }}
+          >
+            <AiTwotoneHeart id="favorite" />
+          </Badge>
+        </Link>
+        {deleteJob && (
+          <RiDeleteBin2Fill
+            id="deleteJob"
+            className="ml-2"
+            onClick={() => {
+              // dispatch({
+              //   type: `DELETE_FAVORITE`,
+              //   payload: data._id,
+              // });
+              dispatch(deleteFavoriteAction(data._id));
+            }}
+          />
+        )}
       </Col>
     </Row>
   );
